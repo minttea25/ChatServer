@@ -5,8 +5,6 @@ using Google.Protobuf;
 using ChatServer;
 using ChatServer.Data;
 using Google.Protobuf.WellKnownTypes;
-using System.Collections.Generic;
-using System.Threading;
 
 namespace Chat
 {
@@ -165,7 +163,7 @@ namespace Chat
 
 
             CResRoomList res = new();
-            res.Timestamp = Timestamp.FromDateTime(DateTime.UtcNow); // Use UtcNow (not Now) => ArgumentException
+            res.Timestamp = Timestamp.FromDateTime(DateTime.UtcNow.AddHours(9)); // Use UtcNow (not Now) => ArgumentException
             var list = s.Rooms;
             foreach (var r in list.Keys)
             {

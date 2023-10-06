@@ -113,7 +113,7 @@ namespace ChatServer
         public void SendChatText(ClientSession session, string msg)
         {
             ChatBase chat = new();
-            chat.Timestamp = Timestamp.FromDateTime(DateTime.UtcNow);
+            chat.Timestamp = Timestamp.FromDateTime(DateTime.UtcNow.AddHours(9));
             chat.ChatType = ChatType.Text;
 
             CRecvChatText res = new()
@@ -129,7 +129,7 @@ namespace ChatServer
         public void SendChatIcon(ClientSession session, uint iconId)
         {
             ChatBase chat = new();
-            chat.Timestamp = Timestamp.FromDateTime(DateTime.UtcNow);
+            chat.Timestamp = Timestamp.FromDateTime(DateTime.UtcNow.AddHours(9));
             chat.ChatType = ChatType.Icon;
 
             CRecvChatIcon res = new()
