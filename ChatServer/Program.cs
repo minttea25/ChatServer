@@ -32,6 +32,10 @@ namespace ChatServer
                         if (Server.IsOn == true) Server.Instance.StopServer();
                         else Console.WriteLine("Not started.");
                         break;
+                    case "session_count":
+                        if (Server.IsOn == true) Console.WriteLine($"{SessionManager.Instance._sessions.Count}");
+                        else Console.WriteLine("Not started");
+                        break;
                     default:
                         Console.WriteLine($"Unknown Command: {command}");
                         break;

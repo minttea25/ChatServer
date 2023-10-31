@@ -11,7 +11,7 @@ namespace ChatServer
         #endregion
 
         uint _sessionId = 0;
-        readonly Dictionary<uint, ClientSession> _sessions = new Dictionary<uint, ClientSession>();
+        public readonly Dictionary<uint, ClientSession> _sessions = new Dictionary<uint, ClientSession>();
         readonly object _lock = new object();
 
         public ClientSession CreateNewSession()

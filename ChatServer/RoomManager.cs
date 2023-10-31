@@ -6,7 +6,7 @@ namespace ChatServer
 {
     class RoomManager
     {
-        const int FlushTickInterval = 500;
+        const int FlushTickInterval = 200;
 
         #region Singleton
         readonly static RoomManager _instance = new RoomManager();
@@ -18,11 +18,14 @@ namespace ChatServer
         readonly static object _lock = new object();
         public void FlushRoom()
         {
-            foreach (var room in _rooms.Values)
+            lock(_lock)
             {
-                if (room.IsActivate == true)
+                foreach (var room in _rooms.Values)
                 {
-                    room.AddJob(() => room.Flush());
+                    if (room.IsActivate == true)
+                    {
+                        room.AddJob(() => room.Flush());
+                    }
                 }
             }
             JobTimer.Instance.Push(FlushRoom, FlushTickInterval);

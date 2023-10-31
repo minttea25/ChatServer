@@ -52,12 +52,14 @@ namespace ChatServer
 
         public void Flush()
         {
-            foreach (ClientSession session in _users.Values)
+            lock(_pendingQueueLock)
             {
-                session.SendRaw(_pendingMessages);
+                foreach (ClientSession session in _users.Values)
+                {
+                    session.SendRaw(_pendingMessages);
+                }
+                _pendingMessages.Clear();
             }
-
-            _pendingMessages.Clear();
         }
 
         public bool Enter(ClientSession session)
