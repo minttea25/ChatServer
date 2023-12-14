@@ -10,54 +10,24 @@ namespace ChatServer
         public static SessionManager Instance => _instance;
         #endregion
 
-        uint _sessionId = 0;
-        public readonly Dictionary<uint, ClientSession> _sessions = new Dictionary<uint, ClientSession>();
-        readonly object _lock = new object();
-
         public ClientSession CreateNewSession()
         {
-            lock (_lock)
-            {
-                uint id = _sessionId++;
-                ClientSession session = new ClientSession(id);
-                _sessions.Add(id, session);
-
-                return session;
-            }
+            return null;
         }
 
         public ClientSession Get(uint id)
         {
-            lock (_lock)
-            {
-                if (_sessions.TryGetValue(id, out var session))
-                {
-                    return session;
-                }
-                else return null;
-            }
+            return null;
         }
 
         public bool Remove(uint id)
         {
-            lock (_lock)
-            {
-                return _sessions.Remove(id);
-            }
+            return false;
         }
 
         public bool Remove(ClientSession session)
         {
-            var rooms = session.Rooms.Values;
-            foreach (var r in rooms)
-            {
-                r.Leave(session);
-            }
-
-            lock (_lock)
-            {
-                return _sessions.Remove(session.SessionId);
-            }
+            return false;
         }
     }
 }
