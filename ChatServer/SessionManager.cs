@@ -1,5 +1,7 @@
-﻿using System;
+﻿using ServerCoreTCP.Job;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ChatServer
 {
@@ -10,24 +12,39 @@ namespace ChatServer
         public static SessionManager Instance => _instance;
         #endregion
 
+        // TODO : How about using Concurrent Dictionary?
+        Dictionary<uint, ClientSession> _sessions = new Dictionary<uint, ClientSession>();
+        uint _idIssuer = 1;
+        object _lock = new object();
+
         public ClientSession CreateNewSession()
         {
-            return null;
-        }
-
-        public ClientSession Get(uint id)
-        {
-            return null;
+            ClientSession session = new ClientSession();
+            lock (_lock)
+            {
+                session.ServerSessionId = _idIssuer;
+                _sessions.Add(_idIssuer, session);
+                _idIssuer++;
+            }
+            return session;
         }
 
         public bool Remove(uint id)
         {
-            return false;
+           lock (_lock)
+           {
+                return _sessions.Remove(id);
+           }
         }
 
-        public bool Remove(ClientSession session)
+        public List<ClientSession> GetSessions()
         {
-            return false;
+            List<ClientSession> sessions;
+            lock(_lock)
+            {
+                sessions = _sessions.Values.ToList();
+            }
+            return sessions;
         }
     }
 }
